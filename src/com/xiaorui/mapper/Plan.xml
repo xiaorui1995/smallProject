@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.xiaorui.mapper.PlanMapper">
+    
+    	<select id="pagePlan" parameterType="map" resultType="Plan">
+    		select * from plan where userId=#{userId} order by createTime desc limit #{startIndex},#{pageSize}  
+    	</select>
+    	
+    	<select id="total" resultType="int">
+    		select count(*) from plan 
+    	</select>
+    	
+    	<select id="planDetail" parameterType="string" resultType="Plan">
+    		select * from plan where id=#{id}
+    	</select>
+    	
+    	<insert id="addPlan" parameterType="Plan">
+    	insert into plan(planName,createTime,planContent,userId) values(#{planName},#{createTime},#{planContent},#{userId})
+    	</insert>
+    	
+    	<update id="deletePlan">
+    		update plan set status=1 where id=#{0} and userId=#{1}
+    	</update>
+    	
+    	<update id="updatePlan" parameterType="Plan">
+    	  update plan 
+    	  	set planName=#{planName},planContent=#{planContent},status="2"
+    	  		where id=#{id} and userId=#{userId}
+    	</update>
+    	
+    	<!-- 批量增 -->
+    	<insert id="addPlanList" parameterType="java.util.List">
+    		insert into plan(planName,createTime,planContent,userId,status) 
+    			values
+    			<foreach collection="list" item="item" index="index" separator=",">
+    				(#{item.planName},#{item.createTime},#{item.planContent},#{item.userId},0)
+    			</foreach>
+    	</insert>
+    	<!-- 批量删除 伪删除 改变status为2-->
+    	<update id="deletePlanList" parameterType="java.util.List">
+    		update plan set status=2 where id in 
+    			<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+    				#{item}
+    			</foreach>
+    	</update> 
+    	<!-- 批量更新 -->
+    	<update id="updatePlanList" parameterType="java.util.List">
+    		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+    			update plan 
+    				<set>
+    					<if test="item.planName != null">
+               				 planName = #{item.planName},
+         			   </if>
+         			   <if test="item.planContent !=null">
+         			   		planContent = #{item.planContent}
+         			   </if>
+    					<!-- planName= #{item.planName},planContent=#{item.planContent}, -->
+    				</set>
+    				where id=#{item.id}
+    		</foreach>
+    	</update>
+    	<!-- 批量更新 -->
+    	 <!-- 批量删除 
+    	<delete id="deletePlanList" parameterType="java.util.List">
+    		delete from plan where id in 
+    			<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+    				#{item}
+    			</foreach>
+    	</delete> -->
+    	<!-- 批量操作  增删改 -->
+    	<!-- <resultMap  type="OneClass" id="XRoneClass">
+    		<id property="id" column="id" />
+			<result property="name" column="name" />
+			<collection property="list" ofType="com.xiaorui.pojo.TwoClass">
+	             <id property="id" column="twoId"/> 
+	             <result property="name" column="twoName"/>
+	             <result property="oneClassId" column="oneClassId"/>
+       		</collection>
+    	</resultMap> -->
+    	<!-- <select id="selectId" parameterType="int" resultType="map">
+    		select * from test where id = #{id}
+    	</select> -->
+    	<!-- 批量插入 -->
+    	<!-- <insert id="testInsert" parameterType="java.util.List">
+    		insert into test(id,name) 
+    		values
+    		<foreach collection="list" item="item" index="index" separator=",">
+    			(#{item.id},#{item.name})
+    		</foreach>
+    	</insert> -->
+    	<!-- 批量更新 -->
+    	<!-- <update id="testInsert" parameterType="java.util.List">
+    		update test set name = '1111' where id in  
+    		<foreach collection="list" item="item" open="(" separator="," close=")">
+    			(#{item.id})
+    		</foreach>
+    	</update> -->
+    	<!-- 批量删除 -->
+    	<!-- <delete id="testInsert" parameterType="java.util.List">
+    		delete from test where id in
+    		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+    			#{item.id}
+    		</foreach>
+    	</delete> -->
+    </mapper>

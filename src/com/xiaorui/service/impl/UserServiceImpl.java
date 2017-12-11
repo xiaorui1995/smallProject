@@ -1,6 +1,8 @@
 package com.xiaorui.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,9 @@ public class UserServiceImpl implements UserService{
 		return userMapper.selectUser(user);
 	}
 	@Override
-	public PageBean<User> findUserByPage(int pageNum, int pageSize) {
+	public PageBean<User> findUserByPage(int pageNum,int pageSize) {
 		int totalRecord = userMapper.total();
-		PageBean<User> pbBean = new PageBean<User>(pageNum, pageSize, totalRecord);
+		PageBean<User> pbBean = new PageBean<User>(pageNum,pageSize,totalRecord);//当前页码，总条数
 		int startIndex = pbBean.getStartIndex();
 		List<User> userList = userMapper.list(startIndex,pageSize);
 		pbBean.setList(userList);

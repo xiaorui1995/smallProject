@@ -12,15 +12,16 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
  
     <context:annotation-config/>
- 
-    <context:component-scan base-package="com.xiaorui.controller">
+     <mvc:annotation-driven />
+     
+    <mvc:default-servlet-handler />
+    <context:component-scan base-package="com.xiaorui.controller"><!-- controller注入的路径 -->
           <context:include-filter type="annotation"
           expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
  
-    <mvc:annotation-driven />
-     
-    <mvc:default-servlet-handler />
+ 
+ 
  
     <!-- 视图定位 -->
     <bean
@@ -30,4 +31,15 @@
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
     </bean>
+    
+    
+    <!-- 拦截器 -->  
+       <!--  <mvc:interceptors>  
+            多个拦截器，顺序执行  
+            <mvc:interceptor>  
+                <mvc:mapping path="/**"/>  
+                <bean class="com.xiaorui.interceptor.LoginInterceptor"></bean>  
+            </mvc:interceptor>  
+        </mvc:interceptors>   -->
+    
 </beans>

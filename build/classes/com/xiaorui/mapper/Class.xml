@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.xiaorui.mapper.ClassMapper">
+    	<resultMap  type="com.xiaorui.pojo.OneClass" id="XRoneClass">
+    		<id property="id" column="id" />
+			<result property="name" column="name" />
+			<collection property="list" ofType="com.xiaorui.pojo.TwoClass">
+	             <id property="id" column="twoId"/>
+	             <result property="name" column="twoName"/>
+	             <result property="oneClassId" column="oneClassId"/>
+       		</collection>
+    	</resultMap>
+    	
+    	<select id="searchOneClass" parameterType="java.lang.Integer" resultMap="XRoneClass">
+    		select * from oneClass a,twoClass b where a.id=oneClassId and a.id=#{id} 
+    	</select>
+    </mapper>

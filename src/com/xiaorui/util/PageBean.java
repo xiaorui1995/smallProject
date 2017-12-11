@@ -33,7 +33,7 @@ public class PageBean<T> {
 		}else {
 			this.start = this.pageNum - 2;
 			this.end = this.pageNum + 2;
-			if (start < 0) {
+			if (start <= 0) {
 				this.start = 1;
 				this.end = 5;
 			}

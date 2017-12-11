@@ -16,6 +16,6 @@ public class UserController {
 	@RequestMapping("/userList")
 	public String listUser(HttpServletRequest request,HttpServletResponse response,Model model){
 		
-		return "";
+		return "userList";
 	}
 }

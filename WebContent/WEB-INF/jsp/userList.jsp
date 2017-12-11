@@ -10,47 +10,27 @@
 <title>USER</title>
 </head>
 <body>  
-<table align='center' border='1' cellspacing='0'>
-    <tr>
-        <td>id</td>
-        <td>name</td>
-    </tr>
-    <c:forEach items="${userList}" var="user" varStatus="st">
-        <tr>
-            <td>${user.id}</td>
-            <td>${user.name}</td>
-               
-        </tr>
-    </c:forEach>
-</table>
-    <div style="text-align:center">
-        <a href="?start=0">首  页</a>
-        	<a href="?start=${page.start-page.count}">上一页</a>
-        	<a href="?start=${page.start+page.count}">下一页</a>
-        <%-- <c:if test="${(page.start-page.count)<0 }">
-        	<a disabled style="color:red;">上一页</a>
-        </c:if>
-        <c:if test="${(page.start-page.count)>=0 }">
-        	<a href="?start=${page.start-page.count}">上一页</a>
-        </c:if> 
-        
-        <c:if test="${(page.start+page.count)<page.total }">
-        	<a href="?start=${page.start+page.count}">下一页</a>
-        </c:if> 
-        <c:if test="${(page.start+page.count)>=page.total }">
-        	<a  disabled style="color:red;">下一页</a>
-        </c:if>  --%>
-        
-        <a href="?start=${page.last}">末  页</a>
-    </div>
+<button onclick="testListObject()">testListObject</button>
 </body>
-<script>
-	var count = 0;
-	function onclick1(){
-		if(count>0){
-			alert("现在已经是最后一页了");
-		}
-		count++;
-	}
+<script type="text/javascript">
+function testListObject(){
+	var idList = new Array();
+	idList.push({id:"1",userName:"test1",password:"11111"});
+	idList.push({id:"2",userName:"test2",password:"22222"});
+	idList.push({id:"3",userName:"test3",password:"33333"});
+	$.ajax({
+		 type: "get",  
+		    url: "testListObject.action",  
+		    dataType: 'json',  
+		    data:{"idList1":JSON.stringify(idList)},
+		    //data: {"idList":idList},  list<对象>不能这样提交
+		    success: function(data){  
+		       console.log(data);
+		    },  
+		    error: function(res){  
+		    	console.log(res);
+		    }  
+	});
+}
 </script>
 </html>
